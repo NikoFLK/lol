@@ -1,0 +1,93 @@
+<h1>Lol Matchmaking</h1>
+<p>Fill the form to be matched with fitting teammates </p>
+
+<form class="summForm" [formGroup]="summForm" (ngSubmit)="onSubmit()">
+
+    <mat-form-field hideRequiredMarker>
+      <mat-label>Pseudo</mat-label>
+      <input matInput formControlName="pseudo" required >
+    </mat-form-field><br>
+  
+    <mat-form-field hideRequiredMarker>
+      <mat-label>Role</mat-label>
+      <mat-select formControlName="role" required >
+        <mat-option *ngFor="let role of roles" [value]="role.role">
+          <img src="{{role.icon}}">{{role.role}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field><br>
+
+    <button type="submit" mat-raised-button color="primary" [disabled]="!summForm.valid">Find Teammates</button>
+    
+  </form>
+
+  <mat-card class="teamList" *ngIf='this.summs'>
+
+    <mat-card-header>
+      <mat-card-title>Your Team</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+
+        <mat-expansion-panel hideToggle class="profile">    
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                {{this.summs.role}} - Pseudo : {{ this.summs.pseudo }}
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <p>Creep Score : {{ this.summs.creepScore }}</p>
+            <p>Vision Score : {{ this.summs.visionScore }}</p>
+            <p>Objectives Score : {{ this.summs.objScore }}</p>
+            <p>Kill Score : {{ this.summs.killScore }}</p>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel hideToggle>    
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Role : - Pseudo :
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <p>Creep Score : </p>
+          <p>Vision Score : </p>
+          <p>Objectives Score : </p>
+          <p>Kill Score : </p>
+      </mat-expansion-panel>
+
+      <mat-expansion-panel hideToggle>    
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Role : - Pseudo :
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <p>Creep Score : </p>
+        <p>Vision Score : </p>
+        <p>Objectives Score : </p>
+        <p>Kill Score : </p>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel hideToggle>    
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Role : - Pseudo :
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <p>Creep Score : </p>
+      <p>Vision Score : </p>
+      <p>Objectives Score : </p>
+      <p>Kill Score : </p>
+  </mat-expansion-panel>
+
+  <mat-expansion-panel hideToggle>    
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Role : - Pseudo :
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <p>Creep Score : </p>
+    <p>Vision Score : </p>
+    <p>Objectives Score : </p>
+    <p>Kill Score : </p>
+</mat-expansion-panel>
+
+    </mat-card-content>
+  </mat-card>
