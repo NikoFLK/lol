@@ -70,7 +70,7 @@ export class SummonerFormComponent implements OnInit {
         this.summonerToDisplay.push(value);
       }
     });
-    console.log("std", this.summonerToDisplay);
+    console.log(this.summonerToDisplay);
 }
 
   checkInput(summName: any, formSummoner: any){
