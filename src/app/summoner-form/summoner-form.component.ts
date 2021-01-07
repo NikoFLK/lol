@@ -20,7 +20,7 @@ export class SummonerFormComponent implements OnInit {
   public summoner1 = (data1 as any).default;
   public summoner2 = (data2 as any).default;
 
-  public statWithName: any;
+  public statWithName: Array<any> = [];
 
   constructor(public formBuilder: FormBuilder) { }
 
@@ -28,32 +28,33 @@ export class SummonerFormComponent implements OnInit {
   }
 
   onSubmit() {
-    this.statWithName = {};
     let i: number = 0;
+    let tempo: Array<any> = [];
     this.summoner1.participants.forEach((value: { timeline: { lane: any; }; stats: { kills: any; deaths: any; assists: any; visionScore: any; neutralMinionsKilled: any; }; }) => {
-      let tempo = {};
-      this.statWithName.summonerName = this.summoner1.participantIdentities[i].player.summonerName;
-      this.statWithName.lane = value.timeline.lane;
-      this.statWithName.kills = value.stats.kills;
-      this.statWithName.deaths = value.stats.deaths;
-      this.statWithName.assists = value.stats.assists;
-      this.statWithName.visionScore = value.stats.visionScore;
-      this.statWithName.neutralMinionsKilled = value.stats.neutralMinionsKilled;
+      tempo = [];
+      tempo['summonerName'] = this.summoner1.participantIdentities[i].player.summonerName;
+      tempo['lane'] = value.timeline.lane;
+      tempo['kills'] = value.stats.kills;
+      tempo['deaths'] = value.stats.deaths;
+      tempo['assists'] = value.stats.assists;
+      tempo['visionScore'] = value.stats.visionScore;
+      tempo['neutralMinionsKilled'] = value.stats.neutralMinionsKilled;
+      this.statWithName.push(tempo);
       i++;
-      this.statWithName = Object.assign(this.statWithName, tempo);
-      this.checkInput(this.summForm.value.pseudo);
+      //this.checkInput(this.summForm.value.pseudo);
     });
     let j: number = 0;
     this.summoner2.participants.forEach((value: { timeline: { lane: any; }; stats: { kills: any; deaths: any; assists: any; visionScore: any; neutralMinionsKilled: any; }; }) => {
-      let tempo = {};
-      this.statWithName.summonerName = this.summoner1.participantIdentities[j].player.summonerName;
-      this.statWithName.lane = value.timeline.lane;
-      this.statWithName.kills = value.stats.kills;
-      this.statWithName.deaths = value.stats.deaths;
-      this.statWithName.assists = value.stats.assists;
-      this.statWithName.visionScore = value.stats.visionScore;
-      this.statWithName.neutralMinionsKilled = value.stats.neutralMinionsKilled;
-      i++;
+      tempo = [];
+      tempo['summonerName'] = this.summoner1.participantIdentities[j].player.summonerName;
+      tempo['lane'] = value.timeline.lane;
+      tempo['kills'] = value.stats.kills;
+      tempo['deaths'] = value.stats.deaths;
+      tempo['assists'] = value.stats.assists;
+      tempo['visionScore'] = value.stats.visionScore;
+      tempo['neutralMinionsKilled'] = value.stats.neutralMinionsKilled;
+      this.statWithName.push(tempo);
+      j++;
     });
     console.log("Stats With Name", this.statWithName);
 }
