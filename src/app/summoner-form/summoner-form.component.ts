@@ -54,30 +54,63 @@ export class SummonerFormComponent implements OnInit {
       this.statWithName.push(tempo);
       j++;
     });
+
+    console.log(this.statWithName);
   }
 
   onSubmit() {
-    console.log(this.statWithName);
     this.summonerToDisplay = [];
     let validUsername = false;
     this.statWithName.forEach((value) => {
       let tempo = this.checkInput(value['summonerName'], this.summForm.value.pseudo);
       if (tempo) {
         validUsername = true;
-        console.log(value);
         this.summonerToDisplay.push(value);
       }
     });
-    console.log(this.summonerToDisplay);
+    if (this.summonerToDisplay.length > 0) {
+      this.algoFindSummoner(this.summonerToDisplay[0]);
+      console.log(this.summonerToDisplay);
+    } else {
+      window.alert('please take one of the summoner name from the list in the console');
+    }
 }
 
+  algoFindSummoner(userSummoner: any) {
+    let tempoArray: Array<any> = [];
+    this.statWithName.forEach((value) => {
+      if (value['summonerName'] !== userSummoner['summonerName']) {
+        if (value['lane'] !== userSummoner['lane']) {
+          value.algoScore = 0;
+          if (value['assists'] > userSummoner['assists']) {
+            value.algoScore++;
+
+          }
+          if (value['deaths'] < userSummoner['deaths']) {
+            value.algoScore++;
+
+          }
+          if (value['kills'] > userSummoner['kills']) {
+            value.algoScore++;
+
+          }
+          if (value['neutralMinionsKilled'] > userSummoner['neutralMinionsKilled']) {
+            value.algoScore++;
+
+          }
+          if (value['visionScore'] > userSummoner['visionScore']) {
+            value.algoScore++;
+            if (this.summonerToDisplay.length < 5) {
+              this.summonerToDisplay.push(value);
+            }
+          }
+        }
+      }
+    });
+  }
+
   checkInput(summName: any, formSummoner: any){
-    if (summName.toLowerCase().trim() === formSummoner.toLowerCase().trim()) {
-      return true;
-    }
-    else {
-      return false;
-    }
+    return summName.toLowerCase().trim() === formSummoner.toLowerCase().trim();
   }
 
   roles: roles[] = [
