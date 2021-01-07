@@ -21,6 +21,7 @@ export class SummonerFormComponent implements OnInit {
   public summoner2 = (data2 as any).default;
 
   public statWithName: Array<any> = [];
+  public summonerToDisplay: Array<any> = [];
 
   constructor(public formBuilder: FormBuilder) { }
 
@@ -43,7 +44,7 @@ export class SummonerFormComponent implements OnInit {
     let j = 0;
     this.summoner2.participants.forEach((value: { timeline: { lane: any; }; stats: { kills: any; deaths: any; assists: any; visionScore: any; neutralMinionsKilled: any; }; }) => {
       tempo = [];
-      tempo['summonerName'] = this.summoner1.participantIdentities[j].player.summonerName;
+      tempo['summonerName'] = this.summoner2.participantIdentities[j].player.summonerName;
       tempo['lane'] = value.timeline.lane;
       tempo['kills'] = value.stats.kills;
       tempo['deaths'] = value.stats.deaths;
@@ -56,13 +57,26 @@ export class SummonerFormComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log("Stats With Name", this.statWithName);
-    //this.checkInput(, this.summForm.value.pseudo);
+    console.log(this.statWithName);
+    this.summonerToDisplay = [];
+    let validUsername = false;
+    this.statWithName.forEach((value) => {
+      let tempo = this.checkInput(value['summonerName'], this.summForm.value.pseudo);
+      if (tempo) {
+        validUsername = true;
+        console.log(value);
+        this.summonerToDisplay.push(value);
+      }
+    });
+    console.log(this.summonerToDisplay);
 }
 
   checkInput(summName: any, formSummoner: any){
-    if(summName === formSummoner) {
-      console.log("Summoner Name Checked", summName);
+    if (summName.toLowerCase().trim() === formSummoner.toLowerCase().trim()) {
+      return true;
+    }
+    else {
+      return false;
     }
   }
 
