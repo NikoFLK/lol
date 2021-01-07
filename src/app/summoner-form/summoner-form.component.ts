@@ -23,6 +23,8 @@ export class SummonerFormComponent implements OnInit {
   public statWithName: Array<any> = [];
   public summonerToDisplay: Array<any> = [];
 
+  public inputCheck: boolean = false;
+
   constructor(public formBuilder: FormBuilder) { }
 
   ngOnInit(): any {
@@ -68,11 +70,12 @@ export class SummonerFormComponent implements OnInit {
         this.summonerToDisplay.push(value);
       }
     });
-    console.log(this.summonerToDisplay);
+    console.log("std", this.summonerToDisplay);
 }
 
   checkInput(summName: any, formSummoner: any){
     if (summName.toLowerCase().trim() === formSummoner.toLowerCase().trim()) {
+      this.inputCheck = true;
       return true;
     }
     else {

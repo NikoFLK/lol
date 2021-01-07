@@ -21,7 +21,7 @@
     
   </form>
 
-  <mat-card class="teamList">
+  <mat-card class="teamList" *ngIf="this.inputCheck == true">
 
     <mat-card-header>
       <mat-card-title>Your Team</mat-card-title>
@@ -31,62 +31,72 @@
 
         <mat-expansion-panel hideToggle class="profile">    
             <mat-expansion-panel-header>
-              <mat-panel-title>
-                Role :  - Pseudo : 
+              <mat-panel-title class="profile">
+                Role : {{ this.summForm.value.role }} 
               </mat-panel-title>
+              <mat-panel-subtitle>
+                Pseudo : {{ this.summonerToDisplay[0].summonerName }}
+              </mat-panel-subtitle>
             </mat-expansion-panel-header>
-            <p>Creep Score : </p>
-            <p>Vision Score :</p>
-            <p>Objectives Score : </p>
-            <p>Kill Score : </p>
+            <p>KDA : {{ this.summonerToDisplay[0].kills }} / {{ this.summonerToDisplay[0].deaths }} / {{ this.summonerToDisplay[0].assists }}</p>
+            <p>Vision Score : {{ this.summonerToDisplay[0].visionScore }}</p>
+            <p>Creep Score : {{ this.summonerToDisplay[0].neutralMinionsKilled }}</p>
         </mat-expansion-panel>
 
         <mat-expansion-panel hideToggle>    
           <mat-expansion-panel-header>
             <mat-panel-title>
-              Role : - Pseudo :
+              Role : {{ this.summForm.value.role }} 
             </mat-panel-title>
+            <mat-panel-subtitle>
+              Pseudo : {{ this.summonerToDisplay[0].summonerName }}
+            </mat-panel-subtitle>
           </mat-expansion-panel-header>
-          <p>Creep Score : </p>
-          <p>Vision Score : </p>
-          <p>Objectives Score : </p>
-          <p>Kill Score : </p>
+          <p>KDA : {{ this.summonerToDisplay[0].kills }} / {{ this.summonerToDisplay[0].deaths }} / {{ this.summonerToDisplay[0].assists }}</p>
+          <p>Vision Score : {{ this.summonerToDisplay[0].visionScore }}</p>
+          <p>Creep Score : {{ this.summonerToDisplay[0].neutralMinionsKilled }}</p>
       </mat-expansion-panel>
 
       <mat-expansion-panel hideToggle>    
         <mat-expansion-panel-header>
           <mat-panel-title>
-            Role : - Pseudo :
+            Role : {{ this.summForm.value.role }} 
           </mat-panel-title>
+          <mat-panel-subtitle>
+            Pseudo : {{ this.summonerToDisplay[0].summonerName }}
+          </mat-panel-subtitle>
         </mat-expansion-panel-header>
-        <p>Creep Score : </p>
-        <p>Vision Score : </p>
-        <p>Objectives Score : </p>
-        <p>Kill Score : </p>
+        <p>KDA : {{ this.summonerToDisplay[0].kills }} / {{ this.summonerToDisplay[0].deaths }} / {{ this.summonerToDisplay[0].assists }}</p>
+        <p>Vision Score : {{ this.summonerToDisplay[0].visionScore }}</p>
+        <p>Creep Score : {{ this.summonerToDisplay[0].neutralMinionsKilled }}</p>
     </mat-expansion-panel>
 
     <mat-expansion-panel hideToggle>    
       <mat-expansion-panel-header>
         <mat-panel-title>
-          Role : - Pseudo :
+          Role : {{ this.summForm.value.role }} 
         </mat-panel-title>
+        <mat-panel-subtitle>
+          Pseudo : {{ this.summonerToDisplay[0].summonerName }}
+        </mat-panel-subtitle>
       </mat-expansion-panel-header>
-      <p>Creep Score : </p>
-      <p>Vision Score : </p>
-      <p>Objectives Score : </p>
-      <p>Kill Score : </p>
+      <p>KDA : {{ this.summonerToDisplay[0].kills }} / {{ this.summonerToDisplay[0].deaths }} / {{ this.summonerToDisplay[0].assists }}</p>
+      <p>Vision Score : {{ this.summonerToDisplay[0].visionScore }}</p>
+      <p>Creep Score : {{ this.summonerToDisplay[0].neutralMinionsKilled }}</p>
   </mat-expansion-panel>
 
   <mat-expansion-panel hideToggle>    
     <mat-expansion-panel-header>
       <mat-panel-title>
-        Role : - Pseudo :
+        Role : {{ this.summForm.value.role }} 
       </mat-panel-title>
+      <mat-panel-subtitle>
+        Pseudo : {{ this.summonerToDisplay[0].summonerName }}
+      </mat-panel-subtitle>
     </mat-expansion-panel-header>
-    <p>Creep Score : </p>
-    <p>Vision Score : </p>
-    <p>Objectives Score : </p>
-    <p>Kill Score : </p>
+    <p>KDA : {{ this.summonerToDisplay[0].kills }} / {{ this.summonerToDisplay[0].deaths }} / {{ this.summonerToDisplay[0].assists }}</p>
+    <p>Vision Score : {{ this.summonerToDisplay[0].visionScore }}</p>
+    <p>Creep Score : {{ this.summonerToDisplay[0].neutralMinionsKilled }}</p>
 </mat-expansion-panel>
 
     </mat-card-content>
