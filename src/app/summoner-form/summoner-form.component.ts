@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { summoners, roles, scores } from '../interfaces';
+import { roles, scores } from '../interfaces';
 import { FormBuilder, Validators } from '@angular/forms';
-import * as data from '../../assets/json/summoners.json';
+import * as data1 from '../../assets/json/summoners.json';
+import * as data2 from '../../assets/json/summoners2.json';
 
 @Component({
   selector: 'app-summoner-form',
@@ -15,21 +16,44 @@ export class SummonerFormComponent implements OnInit {
     pseudo: ['', Validators.required],
     role: ['', Validators.required],
   });
-  
-  public summs = (data as any).default;
+
+  public summoner1 = (data1 as any).default;
+  public summoner2 = (data2 as any).default;
+
+  public statWithName: any;
 
   constructor(public formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
-    console.log('niko', this.summs);
   }
 
-  onSubmit(){
-    console.log('niko2', this.summs);
-    if (this.summForm.value.pseudo in this.summs){
-      console.log("this.summForm.value.pseudo");
-    }
-
+  onSubmit() {
+    this.statWithName = {};
+    let i = 0;
+    this.summoner1.participants.forEach((value) => {
+      let tempo = {};
+      this.statWithName.summonerName = this.summoner1.participantIdentities[i].player.summonerName;
+      this.statWithName.lane = value.timeline.lane;
+      this.statWithName.kills = value.stats.kills;
+      this.statWithName.deaths = value.stats.deaths;
+      this.statWithName.assists = value.stats.assists;
+      this.statWithName.visionScore = value.stats.visionScore;
+      this.statWithName.neutralMinionsKilled = value.stats.neutralMinionsKilled;
+      i++;
+      this.statWithName = Object.assign(this.statWithName, tempo);
+    });
+    i = 0;
+    this.summoner2.participants.forEach((value) => {
+      this.statWithName.summonerName = this.summoner1.participantIdentities[i].player.summonerName;
+      this.statWithName.lane = value.timeline.lane;
+      this.statWithName.kills = value.stats.kills;
+      this.statWithName.deaths = value.stats.deaths;
+      this.statWithName.assists = value.stats.assists;
+      this.statWithName.visionScore = value.stats.visionScore;
+      this.statWithName.neutralMinionsKilled = value.stats.neutralMinionsKilled;
+      i++;
+    });
+    console.log(this.statWithName);
   }
 
   roles: roles[] = [
