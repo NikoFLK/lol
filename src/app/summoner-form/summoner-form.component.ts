@@ -82,27 +82,18 @@ export class SummonerFormComponent implements OnInit {
       if (value['summonerName'] !== userSummoner['summonerName']) {
         if (value['lane'] !== userSummoner['lane']) {
           value.algoScore = 0;
-          if (value['assists'] > userSummoner['assists']) {
-            value.algoScore++;
-
+          if ((value['assists'] + value['kills']) / value['deaths'] > (userSummoner['assists'] + userSummoner['kills']) / userSummoner['deaths']) {
+            value.algoScore + 3;
           }
-          if (value['deaths'] < userSummoner['deaths']) {
-            value.algoScore++;
-
-          }
-          if (value['kills'] > userSummoner['kills']) {
-            value.algoScore++;
-
-          }
-          if (value['neutralMinionsKilled'] > userSummoner['neutralMinionsKilled']) {
+          /*if (value['neutralMinionsKilled'] > userSummoner['neutralMinionsKilled']) {
             value.algoScore++;
 
           }
           if (value['visionScore'] > userSummoner['visionScore']) {
             value.algoScore++;
-            if (this.summonerToDisplay.length < 5) {
-              this.summonerToDisplay.push(value);
-            }
+          }*/
+          if (this.summonerToDisplay.length < 5) {
+            this.summonerToDisplay.push(value);
           }
         }
       }
