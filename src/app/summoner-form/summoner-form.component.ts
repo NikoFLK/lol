@@ -12,6 +12,8 @@ import * as data2 from '../../assets/json/summoners2.json';
 
 export class SummonerFormComponent implements OnInit {
 
+  constructor(public formBuilder: FormBuilder) { }
+
   public summForm = this.formBuilder.group({
     pseudo: ['', Validators.required],
     role: ['', Validators.required],
@@ -23,9 +25,23 @@ export class SummonerFormComponent implements OnInit {
   public statWithName: Array<any> = [];
   public summonerToDisplay: Array<any> = [];
 
-  public inputCheck: boolean = false;
+  public inputCheck = false;
 
-  constructor(public formBuilder: FormBuilder) { }
+  roles: roles[] = [
+    {role: 'Top', icon: '../assets/img/Top_icon.png'},
+    {role: 'Jungle', icon: '../assets/img/Jungle_icon.png'},
+    {role: 'Middle', icon: '../assets/img/Middle_icon.png'},
+    {role: 'Bottom', icon: '../assets/img/Bottom_icon.png'},
+    {role: 'Support', icon: '../assets/img/Support_icon.png'},
+];
+
+  scores: scores[] = [
+    {value: 1},
+    {value: 2},
+    {value: 3},
+    {value: 4},
+    {value: 5},
+];
 
   ngOnInit(): any {
     let i = 0;
@@ -33,26 +49,26 @@ export class SummonerFormComponent implements OnInit {
     this.statWithName = [];
     this.summoner1.participants.forEach((value: { timeline: { lane: any; }; stats: { kills: any; deaths: any; assists: any; visionScore: any; neutralMinionsKilled: any; }; }) => {
       tempo = [];
-      tempo['summonerName'] = this.summoner1.participantIdentities[i].player.summonerName;
-      tempo['lane'] = value.timeline.lane;
-      tempo['kills'] = value.stats.kills;
-      tempo['deaths'] = value.stats.deaths;
-      tempo['assists'] = value.stats.assists;
-      tempo['visionScore'] = value.stats.visionScore;
-      tempo['neutralMinionsKilled'] = value.stats.neutralMinionsKilled;
+      tempo.summonerName = this.summoner1.participantIdentities[i].player.summonerName;
+      tempo.lane = value.timeline.lane;
+      tempo.kills = value.stats.kills;
+      tempo.deaths = value.stats.deaths;
+      tempo.assists = value.stats.assists;
+      tempo.visionScore = value.stats.visionScore;
+      tempo.neutralMinionsKilled = value.stats.neutralMinionsKilled;
       this.statWithName.push(tempo);
       i++;
     });
     let j = 0;
     this.summoner2.participants.forEach((value: { timeline: { lane: any; }; stats: { kills: any; deaths: any; assists: any; visionScore: any; neutralMinionsKilled: any; }; }) => {
       tempo = [];
-      tempo['summonerName'] = this.summoner2.participantIdentities[j].player.summonerName;
-      tempo['lane'] = value.timeline.lane;
-      tempo['kills'] = value.stats.kills;
-      tempo['deaths'] = value.stats.deaths;
-      tempo['assists'] = value.stats.assists;
-      tempo['visionScore'] = value.stats.visionScore;
-      tempo['neutralMinionsKilled'] = value.stats.neutralMinionsKilled;
+      tempo.summonerName = this.summoner2.participantIdentities[j].player.summonerName;
+      tempo.lane = value.timeline.lane;
+      tempo.kills = value.stats.kills;
+      tempo.deaths = value.stats.deaths;
+      tempo.assists = value.stats.assists;
+      tempo.visionScore = value.stats.visionScore;
+      tempo.neutralMinionsKilled = value.stats.neutralMinionsKilled;
       this.statWithName.push(tempo);
       j++;
     });
@@ -64,7 +80,7 @@ export class SummonerFormComponent implements OnInit {
     this.summonerToDisplay = [];
     let validUsername = false;
     this.statWithName.forEach((value) => {
-      let tempo = this.checkInput(value['summonerName'], this.summForm.value.pseudo);
+      const tempo = this.checkInput(value.summonerName, this.summForm.value.pseudo);
       if (tempo) {
         validUsername = true;
         this.summonerToDisplay.push(value);
@@ -79,21 +95,19 @@ export class SummonerFormComponent implements OnInit {
 }
 
   algoFindSummoner(userSummoner: any) {
-    let tempoArray: Array<any> = [];
     this.statWithName.forEach((value) => {
-      if (value['summonerName'] !== userSummoner['summonerName']) {
-        if (value['lane'] !== userSummoner['lane']) {
+      if (value.summonerName !== userSummoner.summonerName) {
+        if (value.lane !== this.summForm.value.role) {
           value.algoScore = 0;
-          if ((value['assists'] + value['kills']) / value['deaths'] > (userSummoner['assists'] + userSummoner['kills']) / userSummoner['deaths']) {
-            value.algoScore + 3;
+          if ((value.assists + value.kills) / value.deaths > (userSummoner.assists + userSummoner.kills) / userSummoner.deaths) {
+            value.algoScore = value.algoScore + 3;
           }
-          /*if (value['neutralMinionsKilled'] > userSummoner['neutralMinionsKilled']) {
+          if (value.neutralMinionsKilled > userSummoner.neutralMinionsKilled) {
             value.algoScore++;
-
           }
-          if (value['visionScore'] > userSummoner['visionScore']) {
+          if (value.visionScore > userSummoner.visionScore) {
             value.algoScore++;
-          }*/
+          }
           if (this.summonerToDisplay.length < 5) {
             this.summonerToDisplay.push(value);
           }
@@ -111,21 +125,5 @@ export class SummonerFormComponent implements OnInit {
       return false;
     }
   }
-
-  roles: roles[] = [
-    {role: "Toplane", icon:"../assets/img/Top_icon.png"},
-    {role: "Jungle", icon:"../assets/img/Jungle_icon.png"},
-    {role: "Midlane", icon:"../assets/img/Middle_icon.png"},
-    {role: "Botlane", icon:"../assets/img/Bottom_icon.png"},
-    {role: "Support", icon:"../assets/img/Support_icon.png"},
-];
-
-  scores: scores[] = [
-    {value: 1},
-    {value: 2},
-    {value: 3},
-    {value: 4},
-    {value: 5},
-];
 
 }
