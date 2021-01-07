@@ -1,14 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { summoners, roles, scores } from '../interfaces';
 import { FormBuilder, Validators } from '@angular/forms';
-
+import * as data from '../../assets/json/summoners.json';
 
 @Component({
   selector: 'app-summoner-form',
   templateUrl: './summoner-form.component.html',
   styleUrls: ['./summoner-form.component.css']
 })
-
 
 export class SummonerFormComponent implements OnInit {
 
@@ -17,39 +16,21 @@ export class SummonerFormComponent implements OnInit {
     role: ['', Validators.required],
   });
   
-  public summs: any
+  public summs = (data as any).default;
 
   constructor(public formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
-    console.log('sums1', this.summs);
+    console.log('niko', this.summs);
   }
 
   onSubmit(){
-    this.summs = this.summForm.value;
-    console.log('sums2', this.summs);
-  }
+    console.log('niko2', this.summs);
+    if (this.summForm.value.pseudo in this.summs){
+      console.log("this.summForm.value.pseudo");
+    }
 
-  summoners: summoners[] = [
-    { pseudo: "abc", role: "support", creepScore: 1, visionScore: 2, objScore: 3, killScore: 4 },
-    { pseudo: "def", role: "jungle", creepScore: 1, visionScore: 2, objScore: 3, killScore: 4 },
-    { pseudo: "ghi", role: "midlane", creepScore: 1, visionScore: 2, objScore: 3, killScore: 4 },
-    { pseudo: "jkl", role: "botlane", creepScore: 1, visionScore: 2, objScore: 3, killScore: 4 },
-    { pseudo: "mno", role: "toplane", creepScore: 1, visionScore: 2, objScore: 3, killScore: 4 },
-    { pseudo: "pqr", role: "support", creepScore: 1, visionScore: 2, objScore: 3, killScore: 4 },
-    { pseudo: "stu", role: "jungle", creepScore: 1, visionScore: 2, objScore: 3, killScore: 4 },
-    { pseudo: "vwx", role: "midlane", creepScore: 1, visionScore: 2, objScore: 3, killScore: 4 },
-    { pseudo: "yz", role: "botlane", creepScore: 1, visionScore: 2, objScore: 3, killScore: 4 },
-    { pseudo: "zy", role: "toplane", creepScore: 1, visionScore: 2, objScore: 3, killScore: 4 },
-    { pseudo: "xwv", role: "support", creepScore: 1, visionScore: 2, objScore: 3, killScore: 4 },
-    { pseudo: "uts", role: "jungle", creepScore: 1, visionScore: 2, objScore: 3, killScore: 4 },
-    { pseudo: "rqp", role: "midlane", creepScore: 1, visionScore: 2, objScore: 3, killScore: 4 },
-    { pseudo: "onm", role: "botlane", creepScore: 1, visionScore: 2, objScore: 3, killScore: 4 },
-    { pseudo: "lkj", role: "toplane", creepScore: 1, visionScore: 2, objScore: 3, killScore: 4 }, 
-    { pseudo: "ihg", role: "support", creepScore: 1, visionScore: 2, objScore: 3, killScore: 4 },
-    { pseudo: "fed", role: "jungle", creepScore: 1, visionScore: 2, objScore: 3, killScore: 4 },
-    { pseudo: "cba", role: "midlane", creepScore: 1, visionScore: 2, objScore: 3, killScore: 4 }, 
-]; 
+  }
 
   roles: roles[] = [
     {role: "Toplane", icon:"../assets/img/Top_icon.png"},
