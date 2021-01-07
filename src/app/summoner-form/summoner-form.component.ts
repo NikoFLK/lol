@@ -29,8 +29,8 @@ export class SummonerFormComponent implements OnInit {
 
   onSubmit() {
     this.statWithName = {};
-    let i = 0;
-    this.summoner1.participants.forEach((value) => {
+    let i: number = 0;
+    this.summoner1.participants.forEach((value: { timeline: { lane: any; }; stats: { kills: any; deaths: any; assists: any; visionScore: any; neutralMinionsKilled: any; }; }) => {
       let tempo = {};
       this.statWithName.summonerName = this.summoner1.participantIdentities[i].player.summonerName;
       this.statWithName.lane = value.timeline.lane;
@@ -41,10 +41,12 @@ export class SummonerFormComponent implements OnInit {
       this.statWithName.neutralMinionsKilled = value.stats.neutralMinionsKilled;
       i++;
       this.statWithName = Object.assign(this.statWithName, tempo);
+      this.checkInput(this.summForm.value.pseudo);
     });
-    i = 0;
-    this.summoner2.participants.forEach((value) => {
-      this.statWithName.summonerName = this.summoner1.participantIdentities[i].player.summonerName;
+    let j: number = 0;
+    this.summoner2.participants.forEach((value: { timeline: { lane: any; }; stats: { kills: any; deaths: any; assists: any; visionScore: any; neutralMinionsKilled: any; }; }) => {
+      let tempo = {};
+      this.statWithName.summonerName = this.summoner1.participantIdentities[j].player.summonerName;
       this.statWithName.lane = value.timeline.lane;
       this.statWithName.kills = value.stats.kills;
       this.statWithName.deaths = value.stats.deaths;
@@ -53,7 +55,13 @@ export class SummonerFormComponent implements OnInit {
       this.statWithName.neutralMinionsKilled = value.stats.neutralMinionsKilled;
       i++;
     });
-    console.log(this.statWithName);
+    console.log("Stats With Name", this.statWithName);
+}
+
+  checkInput(summName: any){
+    if(summName === this.statWithName.summonerName) {
+      console.log("Summoner Name Checked", this.summForm.value.pseudo);
+    }
   }
 
   roles: roles[] = [
