@@ -1,9 +1,14 @@
-.summonerForm{
-    width : 50%;
+.summForm{
+    widows: 95%;
     text-align: left;
     margin: 20px auto;
+    
 }
-
 .profile {
     background-color: #0275d8;
+    color: white;
+}
+
+.submit {
+    margin-top : 1em; 
 }
