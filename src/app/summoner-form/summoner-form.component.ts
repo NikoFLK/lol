@@ -32,7 +32,6 @@ export class SummonerFormComponent implements OnInit {
     {role: 'Jungle', icon: '../assets/img/Jungle_icon.png'},
     {role: 'Middle', icon: '../assets/img/Middle_icon.png'},
     {role: 'Bottom', icon: '../assets/img/Bottom_icon.png'},
-    {role: 'Support', icon: '../assets/img/Support_icon.png'},
 ];
 
   scores: scores[] = [

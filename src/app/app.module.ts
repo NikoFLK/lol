@@ -15,11 +15,6 @@ import { SummonerFormComponent } from './summoner-form/summoner-form.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {MatToolbarModule} from '@angular/material/toolbar';
 
-
-
-
-
-
 @NgModule({
   declarations: [
     AppComponent,
