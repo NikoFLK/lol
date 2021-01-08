@@ -45,7 +45,7 @@ export class SummonerFormComponent implements OnInit {
 
   ngOnInit(): any {
     let i = 0;
-    let tempo: Array<any> = [];
+    let tempo: any = {};
     this.statWithName = [];
     this.summoner1.participants.forEach((value: { timeline: { lane: any; }; stats: { kills: any; deaths: any; assists: any; visionScore: any; neutralMinionsKilled: any; }; }) => {
       tempo = [];
@@ -72,11 +72,9 @@ export class SummonerFormComponent implements OnInit {
       this.statWithName.push(tempo);
       j++;
     });
-
-    console.log(this.statWithName);
   }
 
-  onSubmit() {
+  onSubmit(): any {
     this.summonerToDisplay = [];
     let validUsername = false;
     this.statWithName.forEach((value) => {
@@ -88,18 +86,24 @@ export class SummonerFormComponent implements OnInit {
     });
     if (this.summonerToDisplay.length > 0) {
       this.algoFindSummoner(this.summonerToDisplay[0]);
-      console.log(this.summonerToDisplay);
     } else {
       window.alert('please take one of the summoner name from the list in the console');
     }
 }
 
-  algoFindSummoner(userSummoner: any) {
+  algoFindSummoner(userSummoner: any): any {
+    const summonerWithScore: any[] = [];
+    let scoreKDAuser: any;
+    let scoreKDAsummoner: any;
+    const availableLane = { "JUNGLE": 1, "MIDDLE": 1, "TOP": 1, 'BOTTOM': 2 };
+    availableLane[this.summForm.value.role.toUpperCase()]--;
     this.statWithName.forEach((value) => {
       if (value.summonerName !== userSummoner.summonerName) {
-        if (value.lane !== this.summForm.value.role) {
+        if (availableLane[value.lane] > 0) {
           value.algoScore = 0;
-          if ((value.assists + value.kills) / value.deaths > (userSummoner.assists + userSummoner.kills) / userSummoner.deaths) {
+          scoreKDAsummoner = (value.assists + value.kills) / value.deaths;
+          scoreKDAuser = (userSummoner.assists + userSummoner.kills) / userSummoner.deaths;
+          if (scoreKDAsummoner > scoreKDAuser / 1.2 && scoreKDAsummoner < scoreKDAuser * 1.2) {
             value.algoScore = value.algoScore + 3;
           }
           if (value.neutralMinionsKilled > userSummoner.neutralMinionsKilled) {
@@ -108,12 +112,28 @@ export class SummonerFormComponent implements OnInit {
           if (value.visionScore > userSummoner.visionScore) {
             value.algoScore++;
           }
-          if (this.summonerToDisplay.length < 5) {
-            this.summonerToDisplay.push(value);
-          }
+          summonerWithScore.push(value);
         }
       }
     });
+    let highestScore = '';
+    const alreadyDisplay: any[] = [];
+    console.log(summonerWithScore);
+    while (this.summonerToDisplay.length < 5) {
+      highestScore = '';
+      summonerWithScore.forEach((value) => {
+        if (availableLane[value.lane] > 0) {
+          if (!alreadyDisplay.includes(value.summonerName)) {
+            if (highestScore === '' || value.algoScore > highestScore.algoScore) {
+              highestScore = value;
+            }
+          }
+        }
+      });
+      this.summonerToDisplay.push(highestScore);
+      availableLane[highestScore.lane]--;
+      alreadyDisplay.push(highestScore.summonerName);
+    }
   }
 
   checkInput(summName: any, formSummoner: any){
