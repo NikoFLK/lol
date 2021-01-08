@@ -44,10 +44,14 @@ export class SummonerFormComponent implements OnInit {
 ];
 
   ngOnInit(): any {
+    console.log('liste des joueurs (la casse est ignoré dans le formulaire)');
     let i = 0;
     let tempo: any = {};
     this.statWithName = [];
-    this.summoner1.participants.forEach((value: { timeline: { lane: any; }; stats: { kills: any; deaths: any; assists: any; visionScore: any; neutralMinionsKilled: any; }; }) => {
+    this.summoner1.participants.forEach((value: { timeline: { lane: any; }; stats: {
+        goldEarned: any;
+        goldSpent: any;
+        kills: any; deaths: any; assists: any; visionScore: any; neutralMinionsKilled: any; }; }) => {
       tempo = [];
       tempo.summonerName = this.summoner1.participantIdentities[i].player.summonerName;
       tempo.lane = value.timeline.lane;
@@ -55,12 +59,18 @@ export class SummonerFormComponent implements OnInit {
       tempo.deaths = value.stats.deaths;
       tempo.assists = value.stats.assists;
       tempo.visionScore = value.stats.visionScore;
+      tempo.goldEarned = value.stats.goldEarned;
+      tempo.goldSpent = value.stats.goldSpent;
       tempo.neutralMinionsKilled = value.stats.neutralMinionsKilled;
       this.statWithName.push(tempo);
+      console.log(tempo.summonerName);
       i++;
     });
     let j = 0;
-    this.summoner2.participants.forEach((value: { timeline: { lane: any; }; stats: { kills: any; deaths: any; assists: any; visionScore: any; neutralMinionsKilled: any; }; }) => {
+    this.summoner2.participants.forEach((value: { timeline: { lane: any; }; stats: {
+        goldSpent: any;
+        goldEarned: any;
+        kills: any; deaths: any; assists: any; visionScore: any; neutralMinionsKilled: any; }; }) => {
       tempo = [];
       tempo.summonerName = this.summoner2.participantIdentities[j].player.summonerName;
       tempo.lane = value.timeline.lane;
@@ -68,8 +78,11 @@ export class SummonerFormComponent implements OnInit {
       tempo.deaths = value.stats.deaths;
       tempo.assists = value.stats.assists;
       tempo.visionScore = value.stats.visionScore;
+      tempo.goldEarned = value.stats.goldEarned;
+      tempo.goldSpent = value.stats.goldSpent;
       tempo.neutralMinionsKilled = value.stats.neutralMinionsKilled;
       this.statWithName.push(tempo);
+      console.log( tempo.summonerName);
       j++;
     });
   }
@@ -95,30 +108,37 @@ export class SummonerFormComponent implements OnInit {
     const summonerWithScore: any[] = [];
     let scoreKDAuser: any;
     let scoreKDAsummoner: any;
-    const availableLane = { "JUNGLE": 1, "MIDDLE": 1, "TOP": 1, 'BOTTOM': 2 };
+    let availableLane: any;
+    availableLane = { JUNGLE: 1, MIDDLE: 1, TOP: 1, BOTTOM: 2 };
     availableLane[this.summForm.value.role.toUpperCase()]--;
     this.statWithName.forEach((value) => {
       if (value.summonerName !== userSummoner.summonerName) {
         if (availableLane[value.lane] > 0) {
           value.algoScore = 0;
-          scoreKDAsummoner = (value.assists + value.kills) / value.deaths;
-          scoreKDAuser = (userSummoner.assists + userSummoner.kills) / userSummoner.deaths;
+          scoreKDAsummoner = (value.assists + value.kills * 1.5) / value.deaths;
+          scoreKDAuser = (userSummoner.assists + userSummoner.kills * 1.5) / userSummoner.deaths;
           if (scoreKDAsummoner > scoreKDAuser / 1.2 && scoreKDAsummoner < scoreKDAuser * 1.2) {
             value.algoScore = value.algoScore + 3;
           }
-          if (value.neutralMinionsKilled > userSummoner.neutralMinionsKilled) {
+          if (value.neutralMinionsKilled > userSummoner.neutralMinionsKilled * 0.9 && value.neutralMinionsKilled < userSummoner.neutralMinionsKilled * 1.5) {
             value.algoScore++;
           }
-          if (value.visionScore > userSummoner.visionScore) {
+          if (value.visionScore > userSummoner.visionScore * 0.9 && value.visionScore < userSummoner.visionScore * 1.5) {
+            value.algoScore++;
+          }
+          if (value.goldEarned > userSummoner.goldEarned * 0.9 && value.goldEarned < userSummoner.goldEarned * 1.5) {
+            value.algoScore++;
+          }
+          if (value.goldSpent > value.goldEarned * 0.8) {
             value.algoScore++;
           }
           summonerWithScore.push(value);
         }
       }
     });
-    let highestScore = '';
+    let highestScore: any;
     const alreadyDisplay: any[] = [];
-    console.log(summonerWithScore);
+    console.log('liste des joueur compatible (les 4 avec le plus haut algoScore sont pris dans l\'équipe)', summonerWithScore);
     while (this.summonerToDisplay.length < 5) {
       highestScore = '';
       summonerWithScore.forEach((value) => {
